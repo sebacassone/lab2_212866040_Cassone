@@ -1,4 +1,5 @@
 :- use_module(system_21286604_CassoneGonzalez).
+:- use_module(drive_21286604_CassoneGonzalez).
 
 % Requerimiento 1, Constructor
 % Meta Primaria: system/2.
@@ -7,3 +8,12 @@
 system(Name, System):-
     get_time(Timestamp),
     makeSystem( Name, [], [], "", "", "", [], [], Timestamp, System).
+
+% Requerimiento 2, addDrive
+addDrive(SystemOld, Letter, Name, Capacity, SystemNew):-
+    makeDrive(Name, Letter, [],Capacity, NewDrive),
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, Path, Folders, Trash, Timestamp, SystemOld),
+    \+ verificarUnicidad(Letter, Drives),
+    verificarCaracterUnico(Letter),
+    addDriveInListDrive(Drives, NewDrive, NewListDrives),
+    makeSystem(NameSystem, Users, NewListDrives, CurrentUser, CurrentDrive, Path, Folders, Trash, Timestamp, SystemNew).
