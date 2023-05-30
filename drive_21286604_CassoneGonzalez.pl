@@ -1,4 +1,4 @@
-:- module(drive_21286604_CassoneGonzalez, [makeDrive/5, verificarUnicidad/2, addDriveInListDrive/3, verificarCaracterUnico/1]).
+:- module(drive_21286604_CassoneGonzalez, [makeDrive/5, verificarUnicidad/2, addDriveInListDrive/3, verificarCaracterUnico/1, getDrive/3]).
 
 % TDA Drive = Name x Letter x Capacity.
 
@@ -10,6 +10,21 @@
 makeDrive(Name, Letter, Folders, Capacity, [Name, Letter, Folders, Capacity]).
 
 % Selectores
+
+% Obtener un drive de una lista de drive según su letra
+% Meta Primaria: getDrive/3
+% Dom: Letter x Drives x Drive
+% Caso Base
+getDrive(Letter, [Primero|_], [Name, Letter, Folders, Capacity]):-
+    member(Letter, Primero),
+    nth0(0, Primero, Name),
+    nth0(1, Primero, Letter),
+    nth0(2, Primero, Folders),
+    nth0(3, Primero, Capacity), !.
+
+% Caso Recursivo
+getDrive(Letter, [_|Drives], Drive):-
+    getDrive(Letter, Drives, Drive).
 
 % Modificadores
 

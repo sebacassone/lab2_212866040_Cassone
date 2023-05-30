@@ -49,3 +49,16 @@ systemLogout(SystemOld, SystemNew):-
     makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, Path, Folders, Trash, Timestamp, SystemOld),
     \+ esVacio(CurrentUser),
     makeSystem(NameSystem, Users, Drives, "", CurrentDrive, Path, Folders, Trash, Timestamp, SystemNew).
+
+% Requerimiento 6, switchDrive
+% Meta Primaria: switchDrive/3.
+% Meta Secundaria: makeSystem/10, verificarUnicidad/2, verificarCaracterUnico/1.
+% Dom: SystemOld, Letter, SystemNew.
+systemSwitchDrive(SystemOld, Letter, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, _, Path, _, Trash, Timestamp, SystemOld),
+    verificarUnicidad(Letter, Drives), % Significa que la letra existe en la lista de Drives
+    verificarCaracterUnico(Letter),
+    getDrive(Letter, Drives, Drive),
+    makeDrive(_, _, FoldersDrive, _, Drive),
+    makeSystem(NameSystem, Users, Drives, CurrentUser, Letter, Path, FoldersDrive, Trash, Timestamp, SystemNew).
+
