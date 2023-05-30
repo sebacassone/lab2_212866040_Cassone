@@ -1,4 +1,4 @@
-:- module(system_21286604_CassoneGonzalez, [makeSystem/10, verificarUnicidadUsuarios/2, addUsuarioInListUsuario/3]).
+:- module(system_21286604_CassoneGonzalez, [makeSystem/10, verificarUnicidadUsuarios/2, addUsuarioInListUsuario/3, esVacio/1]).
 
 % TDA System = Name x Users x Drives x CurrentUser x CurrentDrive x Path x Folders x Trash x CreationDateSystem.
 
@@ -26,3 +26,8 @@ addUsuarioInListUsuario(Usuario, ListUsuario, NewListUsuario):-
     append(Usuario, [ListUsuario], NewListUsuario).
 
 % Pertenencia
+
+% Verifica si un caracter es vacío, osea ""
+% Meta Primaria: esVacio/1
+% Dom: Caracter
+esVacio("").

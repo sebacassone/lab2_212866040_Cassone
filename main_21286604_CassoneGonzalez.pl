@@ -22,8 +22,21 @@ systemAddDrive(SystemOld, Letter, Name, Capacity, SystemNew):-
     makeSystem(NameSystem, Users, NewListDrives, CurrentUser, CurrentDrive, Path, Folders, Trash, Timestamp, SystemNew).
 
 % Requerimiento 3, register
+% Meta Primaria: register/3.
+% Meta Secundaria: makeSystem/10, verificarUnicidadUsuarios/2, addUsuarioInListUsuario/3.
+% Dom: SystemOld, Name, SystemNew.
 systemRegister(SystemOld, Name, SystemNew):-
     makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, Path, Folders, Trash, Timestamp, SystemOld),
     \+ verificarUnicidadUsuarios(Name, Users),
     addUsuarioInListUsuario(Users, Name, NewListUsers),
     makeSystem(NameSystem, NewListUsers, Drives, CurrentUser, CurrentDrive, Path, Folders, Trash, Timestamp, SystemNew).
+
+% Requerimiento 4, login
+% Meta Primaria: login/3.
+% Meta Secundaria: makeSystem/10, verificarUnicidadUsuarios/2, esVacio/1.
+% Dom: SystemOld, Name, SystemNew.
+systemLogin(SystemOld, Name, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, Path, Folders, Trash, Timestamp, SystemOld),
+    esVacio(CurrentUser),
+    verificarUnicidadUsuarios(Name, Users),
+    makeSystem(NameSystem, Users, Drives, Name, CurrentDrive, Path, Folders, Trash, Timestamp, SystemNew).
