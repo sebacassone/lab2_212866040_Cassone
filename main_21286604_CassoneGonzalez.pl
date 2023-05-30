@@ -40,3 +40,12 @@ systemLogin(SystemOld, Name, SystemNew):-
     esVacio(CurrentUser),
     verificarUnicidadUsuarios(Name, Users),
     makeSystem(NameSystem, Users, Drives, Name, CurrentDrive, Path, Folders, Trash, Timestamp, SystemNew).
+
+% Requerimiento 5, logout
+% Meta Primaria: logout/2.
+% Meta Secundaria: makeSystem/10, esVacio/1.
+% Dom: SystemOld, SystemNew.
+systemLogout(SystemOld, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, Path, Folders, Trash, Timestamp, SystemOld),
+    \+ esVacio(CurrentUser),
+    makeSystem(NameSystem, Users, Drives, "", CurrentDrive, Path, Folders, Trash, Timestamp, SystemNew).
