@@ -14,6 +14,7 @@ makeSystem(Name, Users, Drives, CurrentUser, CurrentDrive, Path, Folders, Trash,
 
 % Verificar que el usuario sea único
 % Meta Primaria: verificarUnicidadUsuarios/2
+% Meta secundaria: member/2
 % Dom: Usuario x ListaUsuarios
 verificarUnicidadUsuarios(Usuario, ListaUsuarios):-
     member(Usuario, ListaUsuarios).
@@ -21,6 +22,7 @@ verificarUnicidadUsuarios(Usuario, ListaUsuarios):-
 
 % Agregar un Usuario a una lista de Usuarios
 % Meta Primaria: addUsuarioInListUsuario/3
+% Meta secundaria: append/3
 % Dom: Usuario x ListUsuario x NewListUsuario
 addUsuarioInListUsuario(Usuario, ListUsuario, NewListUsuario):-
     append(Usuario, [ListUsuario], NewListUsuario).
