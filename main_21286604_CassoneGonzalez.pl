@@ -8,7 +8,7 @@
 % Dom: Name, System.
 system(Name, System):-
     get_time(Timestamp),
-    makeSystem( Name, [], [], "", "", "", [], [], Timestamp, System).
+    makeSystem( Name, [], [], "", "", "/", [], [], Timestamp, System).
 
 % Requerimiento 3, addDrive
 % Meta Primaria: addDrive/5.
@@ -79,3 +79,13 @@ systemMkdir(SystemOld, Name, SystemNew):-
     deleteDriveInListDrive(Drive, Drives, NewListDrives), % Se elimina el Drive actual de la lista de Drives
     addDriveInListDrive(NewListDrives, NewDrive, NewListDrives2), % Se agrega el nuevo drive a la lista de Drives
     makeSystem(NameSystem, Users, NewListDrives2, CurrentUser, CurrentDrive, Path, NewListFolders, Trash, Timestamp, SystemNew).
+
+% Requerimiento 9
+% Meta primaria: systemCd/3.
+% Meta secundaria: makeSystem/10, verificarUnicidad/2, verificarCaracterUnico/1, verificarPath/2.
+% Dom: SystemOld, Path, SystemNew.
+systemCd(SystemOld, Path, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, CurrentPath, Folders, Trash, Timestamp, SystemOld),
+    \+ esVacio(CurrentUser), % Verifica que haya un usuario logueado
+    getPathFull(CurrentPath, Path, NewPath), % Obtiene la ruta
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, NewPath, Folders, Trash, Timestamp, SystemNew).
