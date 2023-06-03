@@ -98,16 +98,29 @@ eliminar_punto_slash(String, NuevoString) :-
     eliminar_punto_slash(Resto, NuevoString).
 eliminar_punto_slash(String, String).
 
+% Se encarga de eliminar el punto punto slash de una ruta
+% Si el currentDir es / y path es ..
+% Elimina el punto punto slash
+% Meta Primaria: eliminar_punto_punto_slash/2
+% Meta secundaria: atom_concat/3
+% Dom: String x NuevoString
 eliminar_punto_punto_slash(String, NuevoString) :-
     atom_concat("../", Resto, String),
     !,
     eliminar_punto_punto_slash(Resto, NuevoString).
 eliminar_punto_punto_slash(String, String).
 
+% Se encarga de eliminar todo lo que está después de la última barra
+% Meta Primaria: delete_until_character/3
+% Dom: Lista x Caracter x Resultado
 delete_until_character([Character | Rest], Character, Rest).
 delete_until_character([_ | Rest], Character, Result) :-
     delete_until_character(Rest, Character, Result).
 
+% Se encarga de eliminar todo lo que está después de la última barra
+% Meta Primaria: eliminar_despues_de_barra/2
+% Meta secundaria: atom_chars/2, reverse/2, delete_until_character/3, reverse/2, atom_chars/2
+% Dom: Cadena x Resultado
 eliminar_despues_de_barra(Cadena, Resultado) :-
     atom_chars(Cadena, NuevaCadena),
     reverse(NuevaCadena, Reversed),

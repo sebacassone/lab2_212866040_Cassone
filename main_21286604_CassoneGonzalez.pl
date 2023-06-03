@@ -1,6 +1,7 @@
 :- use_module(system_21286604_CassoneGonzalez).
 :- use_module(drive_21286604_CassoneGonzalez).
 :- use_module(folder_21286604_CassoneGonzalez).
+:- use_module(file_21286604_CassoneGonzalez).
 
 % Requerimiento 2, Constructor
 % Meta Primaria: system/2.
@@ -89,3 +90,20 @@ systemCd(SystemOld, Path, SystemNew):-
     \+ esVacio(CurrentUser), % Verifica que haya un usuario logueado
     getPathFull(CurrentPath, Path, NewPath), % Obtiene la ruta
     makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, NewPath, Folders, Trash, Timestamp, SystemNew).
+
+% Requerimiento 10
+% Meta primaria: systemAddFile/3.
+
+% Dom: SystemOld, Name, SystemNew.
+systemAddFile(SystemOld, File, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, CurrentPath, Folders, Trash, Timestamp, SystemOld),
+    \+ esVacio(CurrentUser), % Verifica que haya un usuario logueado
+    makeFile(File, CurrentPath, NewFile), % Se crea el archivo
+    \+ verificarUnicidadFiles(NewFile, Folders), % Se verifica que el archivo que se crea sea único dentro del mismo path
+    addFolderInListFolder(Folders, NewFile, NewListFiles), % Se agrega el archivo a la lista de archivos en el actual Drive
+    getDrive(CurrentDrive, Drives, Drive), % Se obtiene el Drive actual
+    makeDrive(NameDrive, Letter, _, Capacity, Drive), % Se obtiene los atributos del Drive actual
+    makeDrive(NameDrive, Letter, NewListFiles, Capacity, NewDrive), % Se actauliza el Drive actual
+    deleteDriveInListDrive(Drive, Drives, NewListDrives), % Se elimina el Drive actual de la lista de Drives
+    addDriveInListDrive(NewListDrives, NewDrive, NewListDrives2), % Se agrega el nuevo drive a la lista de Drives
+    makeSystem(NameSystem, Users, NewListDrives2, CurrentUser, CurrentDrive, CurrentPath, NewListFiles, Trash, Timestamp, SystemNew).
