@@ -1,6 +1,6 @@
 :- module(drive_21286604_CassoneGonzalez, [makeDrive/5, verificarUnicidad/2, addDriveInListDrive/3, verificarCaracterUnico/1, getDrive/3, deleteDriveInListDrive/3]).
 
-% TDA Drive = Name x Letter x Capacity.
+% TDA Drive = Name x Letter x Folders x Capacity.
 
 % Constructores
 

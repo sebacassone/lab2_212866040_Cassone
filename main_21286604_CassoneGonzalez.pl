@@ -107,3 +107,101 @@ systemAddFile(SystemOld, File, SystemNew):-
     deleteDriveInListDrive(Drive, Drives, NewListDrives), % Se elimina el Drive actual de la lista de Drives
     addDriveInListDrive(NewListDrives, NewDrive, NewListDrives2), % Se agrega el nuevo drive a la lista de Drives
     makeSystem(NameSystem, Users, NewListDrives2, CurrentUser, CurrentDrive, CurrentPath, NewListFiles, Trash, Timestamp, SystemNew).
+
+% Requerimiento 11
+% Meta primaria: systemDel/3.
+systemDel(SystemOld, FileName, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, CurrentPath, Folders, Trash, Timestamp, SystemOld),
+    \+ esVacio(CurrentUser), % Verifica que haya un usuario logueado
+    makeFile(FileName, CurrentPath, File), % Se crea el archivo
+    verificarUnicidadFiles(File, Folders), % Se verifica que el archivo que se crea sea único dentro del mismo path
+    getDrive(CurrentDrive, Drives, Drive), % Se obtiene el Drive actual
+    makeDrive(NameDrive, Letter, _, Capacity, Drive), % Se obtiene los atributos del Drive actual
+    makeDrive(NameDrive, Letter, NewListFiles, Capacity, NewDrive), % Se actauliza el Drive actual
+    deleteDriveInListDrive(Drive, Drives, NewListDrives), % Se elimina el Drive actual de la lista de Drives
+    addDriveInListDrive(NewListDrives, NewDrive, NewListDrives2), % Se agrega el nuevo drive a la lista de Drives,
+    append(Trash, [File], NewTrash), % Se agrega el archivo a la lista de archivos en la papelera
+    makeSystem(NameSystem, Users, NewListDrives2, CurrentUser, CurrentDrive, CurrentPath, NewListFiles, NewTrash, Timestamp, SystemNew).
+
+% Requerimiento 12
+% Copiar un archivo de un directorio a otro
+% Meta primaria: systemCopy/4.
+systemCopy(SystemOld, FileName, Path, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, CurrentPath, Folders, Trash, Timestamp, SystemOld),
+    \+ esVacio(CurrentUser), % Verifica que haya un usuario logueado,
+    % Obtiene el archivo que se va a copiar desde Folders
+    getFile(FileName, Folders, NewFile),
+    makeFile(FileName, Path, NewFile), % Se crea el archivo
+    addFolderInListFolder(Folders, NewFile, NewListFiles), % Se agrega el archivo a la lista de archivos en el actual Drive
+    getDrive(CurrentDrive, Drives, Drive), % Se obtiene el Drive actual
+    makeDrive(NameDrive, Letter, _, Capacity, Drive), % Se obtiene los atributos del Drive actual
+    makeDrive(NameDrive, Letter, NewListFiles, Capacity, NewDrive), % Se actauliza el Drive actual
+    deleteDriveInListDrive(Drive, Drives, NewListDrives), % Se elimina el Drive actual de la lista de Drives
+    addDriveInListDrive(NewListDrives, NewDrive, NewListDrives2), % Se agrega el nuevo drive a la lista de Drives
+    makeSystem(NameSystem, Users, NewListDrives2, CurrentUser, CurrentDrive, CurrentPath, NewListFiles, Trash, Timestamp, SystemNew).
+
+% Requerimiento 13
+% Mover un archivo de un directorio a otro
+% Meta primaria: systemMove/4.
+systemMove(SystemOld, FileName, Path, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, CurrentPath, Folders, Trash, Timestamp, SystemOld),
+    \+ esVacio(CurrentUser), % Verifica que haya un usuario logueado,
+    % Obtiene el archivo que se va a mover desde Folders
+    getFile(FileName, Folders, NewFile),
+    makeFile(FileName, Path, NewFilePath), % Se crea el archivo
+    deleteFileInListFile(NewFile, Folders, NewListFiles), % Se elimina el archivo de la lista de archivos en el actual Drive
+    addFolderInListFolder(NewListFiles, NewFilePath, NewListFiles), % Se agrega el archivo a la lista de archivos en el actual Drive
+    getDrive(CurrentDrive, Drives, Drive), % Se obtiene el Drive actual
+    makeDrive(NameDrive, Letter, _, Capacity, Drive), % Se obtiene los atributos del Drive actual
+    makeDrive(NameDrive, Letter, NewListFiles, Capacity, NewDrive), % Se actauliza el Drive actual
+    deleteDriveInListDrive(Drive, Drives, NewListDrives), % Se elimina el Drive actual de la lista de Drives
+    addDriveInListDrive(NewListDrives, NewDrive, NewListDrives2), % Se agrega el nuevo drive a la lista de Drives
+    makeSystem(NameSystem, Users, NewListDrives2, CurrentUser, CurrentDrive, CurrentPath, NewListFiles, Trash, Timestamp, SystemNew).
+
+% Requerimiento 14
+% Renombra el nombre de un archivo en un mismo directorio
+% Meta Primaria: renameFile/4.
+systemRename(SystemOld, FileName, NewFileName, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, CurrentPath, Folders, Trash, Timestamp, SystemOld),
+    \+ esVacio(CurrentUser), % Verifica que haya un usuario logueado,
+    % Obtiene el archivo que se va a renombrar desde Folders
+    getFile(FileName, Folders, NewFile),
+    makeFile(NewFileName, CurrentPath, NewFile), % Se crea el archivo
+    deleteFileInListFile(NewFile, Folders, NewListFiles), % Se elimina el archivo de la lista de archivos en el actual Drive
+    addFolderInListFolder(NewListFiles, NewFile, NewListFiles), % Se agrega el archivo a la lista de archivos en el actual Drive
+    getDrive(CurrentDrive, Drives, Drive), % Se obtiene el Drive actual
+    makeDrive(NameDrive, Letter, _, Capacity, Drive), % Se obtiene los atributos del Drive actual
+    makeDrive(NameDrive, Letter, NewListFiles, Capacity, NewDrive), % Se actauliza el Drive actual
+    deleteDriveInListDrive(Drive, Drives, NewListDrives), % Se elimina el Drive actual de la lista de Drives
+    addDriveInListDrive(NewListDrives, NewDrive, NewListDrives2), % Se agrega el nuevo drive a la lista de Drives
+    makeSystem(NameSystem, Users, NewListDrives2, CurrentUser, CurrentDrive, CurrentPath, NewListFiles, Trash, Timestamp, SystemNew).
+
+% Requerimiento 16
+% Formatea una unidad de almacenamiento
+% Meta Primaria: formatDrive/4.
+% Dom: system, letter, name, system.
+formatDrive(SystemOld, Letter, Name, SystemNew):-
+    makeSystem(NameSystem, Users, Drives, CurrentUser, CurrentDrive, CurrentPath, _, Trash, Timestamp, SystemOld),
+    \+ esVacio(CurrentUser), % Verifica que haya un usuario logueado,
+    % Obtiene el drive que se va a formatear desde Drives
+    getDrive(Letter, Drives, Drive),
+    makeDrive(_, _, _, Capacity, Drive), % Se crea el drive
+    makeDrive(Name, Letter, [], Capacity, NewDrive), % Se crea el drive
+    deleteDriveInListDrive(Drive, Drives, NewListDrives), % Se elimina el drive de la lista de drives
+    addDriveInListDrive(NewListDrives, NewDrive, NewListDrives2), % Se agrega el drive a la lista de drives
+    makeSystem(NameSystem, Users, NewListDrives2, CurrentUser, CurrentDrive, CurrentPath, [], Trash, Timestamp, SystemNew).
+
+% Requerimiento 15
+% Enlista los archivos de un directorio según un path
+% Meta Primaria: systemList/3.
+% Dom: system, path, list.
+systemDir(System, _ ,Folders):-
+    makeSystem(_, _, _, _, _, _, Folders, _, _, System).
+
+% Requerimiento 20
+% Ver el contenido de la papelera
+% Meta Primaria: showTrash/2.
+% Dom: system.
+showTrash(System, Trash):-
+    makeSystem(_, _, _, _, _, _, _, Trash, _, System).
+

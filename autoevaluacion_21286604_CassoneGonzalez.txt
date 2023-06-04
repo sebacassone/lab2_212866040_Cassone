@@ -1,0 +1,34 @@
+Requisitos no funcionales:
+1. Autoevaluación: 1 Implementación completa sin problemas
+2. Lenguaje: 1 Implementación completa sin problemas
+3. Version: 1 Implementación completa sin problemas
+4. Standart: 1 Implementación completa sin problemas
+5. Documentación: 1 Implementación completa sin problemas
+6. Organización: 1 Implementación completa sin problemas
+7. Historial: 1 Implementación completa sin problemas
+8. Script: 1 Implementación completa sin problemas
+9. Prerrequisitos: 1 Implementación completa sin problemas
+
+Requisitos funcionales:
+1. TDA: 1 Implementación completa sin problemas.
+2. TDA system - constructor: 1 Implementación completa sin problemas.
+3. TDA system - addDrive: 1 Implementación completa sin problemas.
+4. TDA system - register: 1 Implementación completa sin problemas.
+5. TDA system - login: 1 Implementación completa sin problemas.
+6. TDA system - logout: 1 Implementación completa sin problemas.
+7. TDA system - switchDrive: 1 Implementación completa sin problemas.
+8. TDA system - mkdir (make directory): 1 Implementación completa sin problemas.
+9. TDA system - cd (change directory): 1 Implementación completa sin problemas.
+10. TDA system - add-file: 1 Implementación completa sin problemas.
+11. TDA system - del: 0.25 Implementación completa sin problemas.
+12. TDA system - rd (remove directory): 0.25 Implementación con problemas mayores
+13. TDA system - copy: 0.25 Implementación con problemas mayores.
+14. TDA system - move: 0.25 Implementación con problemas mayores. 
+15. TDA system - ren (rename): 0.25 Implementación con problemas mayores.
+16. TDA system - dir (directory): Implementación con funcionamiento irregular (funciona 50% de las veces).
+17. TDA system - format: 1 Implementación completa sin problemas.
+18. TDA system - encrypt: 0 No realizado.
+19. TDA system - decrypt: 0 No realizado.
+20. TDA system - grep: 0 No realizado.
+21. TDA system - view-trash: 0.25 Implementación con problemas mayores.
+22. TDA system - restore: 0 No realizado.

@@ -10,9 +10,6 @@ makeSystem(Name, Users, Drives, CurrentUser, CurrentDrive, Path, Folders, Trash,
 
 % Selectores
 
-
-
-
 % Obtener el path completo de una ruta
 % Meta Primaria: getPathFull/3
 % Meta secundaria: atomic_list_concat/3, append/3, getAbsolutePath/3
@@ -128,12 +125,3 @@ eliminar_despues_de_barra(Cadena, Resultado) :-
     reverse(Reversed2, Reversed3),
     atom_chars(Resultado, Reversed3),
     !.
-
-
-
-
-
-
-
-
-
