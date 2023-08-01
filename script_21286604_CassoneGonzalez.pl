@@ -43,6 +43,8 @@ system("newSystem", System), systemAddDrive(System, "A", "Dinosaurio", 1000, New
 % Enlistar contenido
 system("newSystem", System), systemAddDrive(System, "A", "Dinosaurio", 1000, NewSystem), systemRegister(NewSystem, "Roberto", NewNewSystem), systemLogin(NewNewSystem, "Roberto", S1), systemFormat(S1, "A", S2), systemMkdir(S2, "Folder1", S3), systemMkdir(S3, "Folder2", S4), systemCd(S4, "../../Folder1", S5), file("foo1.txt", "hello world", Pepe), systemAddFile(S5, Pepe, S6), systemDir(S6, [] ,S7).
 
+system("newSystem", System), systemAddDrive(System, "A", "Dinosaurio", 1000, NewSystem), systemAddDrive(NewSystem, "C", "Pepe", 10000, NewNewSystem), systemRegister(NewNewSystem, "Roberto", NewNewNewSystem), systemRegister(NewNewNewSystem, "Cesar", NewNewNewNewSystem), systemLogin(NewNewNewNewSystem, "Cesar", S1),  systemSwitchDrive(S1, "C", S3), systemMkdir(S3, "Folder1", S4), systemMkdir(S4, "Folder2", S5), systemCd(S5, "../../Folder1", S6), file("foo1.txt", "hello world", Pepe), systemAddFile(S6, Pepe, S7), getCurrentDrive(S7, S8), getFilesCurrentFolder(S7, S9).
+
 % Caso que debe retornar true:
 % Creando un sistema, con el disco C, dos usuarios: “user1” y “user2”, 
 % se hace login con "user1”, se utiliza el disco "C", se crea la carpeta “folder1”, 

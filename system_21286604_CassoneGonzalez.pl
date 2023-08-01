@@ -16,26 +16,37 @@ makeSystem(Name, Users, Drives, CurrentUser, CurrentDrive, Path, Folders, Trash,
 % Dom: CurrentDir x Path x NewDir
 % Predicado para cambiar la ruta actual
 % Casos bases
+getPathFull(CurrentDir, Path, NewDir) :-
+    % Caso general: se obtiene la ruta absoluta
+    % y se actualiza el directorio actual
+    esVacio2(CurrentDir), % Se obtiene el directorio actual
+    atom_chars(Path, NuevoPathEnLista), % Se convierte el path en una lista de caracteres
+    \+ member('.', NuevoPathEnLista), % Se verifica que no haya un punto en el path
+    % Si currentDir es slash, se concatena con el path
+    \+ member('/', NuevoPathEnLista), % Se verifica que no haya un punto en el path
+    atom_concat("/", Path, NewDir), % Se concatena el currentDir con el path
+    !.
+
 getPathFull(CurrentDir, Path, NewPath):-
     esVacio2(CurrentDir),
     esVacio2(Path),
     NewPath = "/",
     !.
 
-getPathFull(CurrentDir, Path, NewPath):-
-    atom_chars(Path, NuevoPathEnLista),
-    \+ member('.', NuevoPathEnLista),
-    sub_string(Path, _, _, _, CurrentDir),
-    NewPath = Path,
+getPathFull(CurrentDir, Path, NewPath):- % Caso base: si el path es vacío, se retorna el currentDir
+    atom_chars(Path, NuevoPathEnLista), % Se convierte el path en una lista de caracteres
+    \+ member('.', NuevoPathEnLista), % Se verifica que no haya un punto en el path
+    sub_string(Path, _, _, _, CurrentDir), % Se verifica que el currentDir esté en el path
+    NewPath = Path, % Se retorna el path
     !.
 
 getPathFull(CurrentDir, Path, NewDir) :-
     % Caso general: se obtiene la ruta absoluta
     % y se actualiza el directorio actual
-    atom_chars(Path, NuevoPathEnLista),
-    \+ member('.', NuevoPathEnLista),
-    \+ sub_string(Path, _, _, _, CurrentDir),
-    atom_concat(CurrentDir, Path, NewDir),
+    atom_chars(Path, NuevoPathEnLista), % Se convierte el path en una lista de caracteres
+    \+ member('.', NuevoPathEnLista), % Se verifica que no haya un punto en el path
+    \+ sub_string(Path, _, _, _, CurrentDir), % Se verifica que el currentDir no esté en el path
+    atom_concat(CurrentDir, Path, NewDir), % Se concatena el currentDir con el path
     !.
 
 % Casos recursivos
@@ -125,3 +136,6 @@ eliminar_despues_de_barra(Cadena, Resultado) :-
     reverse(Reversed2, Reversed3),
     atom_chars(Resultado, Reversed3),
     !.
+
+verificar_igual(String, Valor) :-
+    String = Valor.
